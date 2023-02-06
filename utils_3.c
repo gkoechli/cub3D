@@ -6,7 +6,7 @@
 /*   By: gkoechli <gkoechli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 11:43:02 by gkoechli          #+#    #+#             */
-/*   Updated: 2023/02/06 14:59:06 by gkoechli         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:13:17 by gkoechli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	new_coor(t_data *data)
 
 int check_around_ground(t_data  *data, int i, int j)
 {
-	printf("HOP\n");
+	if (i == 0 || j == 0 || i == data->row_max - 1 || j == data->col_size - 1)
+			return -1;
 	if(data->wall[i + 1][j] != 1 && data->wall[i + 1][j] != 0)
 			return -1;
 	if(data->wall[i][j + 1] != 1 && data->wall[i][j + 1] != 0)

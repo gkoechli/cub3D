@@ -6,7 +6,7 @@
 /*   By: gkoechli <gkoechli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:07:26 by gkoechli          #+#    #+#             */
-/*   Updated: 2023/02/06 16:18:58 by gkoechli         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:07:50 by gkoechli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	check_map(t_data *data)
 	int	u;
 
 	i = 0;
-	u = data->win_width * data->win_height / data->col_size / data->row_size;
+	u = data->win_width * data->win_height / data->col_size / data->row_max;
 	while (i < u)
 	{
 		parse(data);
-		if (data->pos.x < data->row_size - 1)
+		if (data->pos.x < data->row_max - 1)
 			data->pos.x += 1;
 		else
 		{
@@ -91,26 +91,29 @@ int	grid_gen(t_data *data)
 	{
 		if (data->map[i] == '\n')
 		{
-			data->pos.x = 0;
-			data->pos.y++;
+				data->pos.x = 0;
+				data->pos.y++;
+				i++;
+		}
+		else
+		{
+			if (data->map[i] == '1')
+				fill_grid(data, 1);
+			if (data->map[i] == '0')
+				fill_grid(data, 0);
+			if (data->map[i] == 'N')
+				fill_grid(data, 4);
+			if (data->map[i] == 'W')
+				fill_grid(data, 5);
+			if (data->map[i] == 'S')
+				fill_grid(data, 6);
+			if (data->map[i] == 'E')
+				fill_grid(data, 7);
+			if (data->map[i] == ' ')
+				fill_grid(data, 2);
+			data->pos.x++;
 			i++;
 		}
-		if (data->map[i] == '1')
-			fill_grid(data, 1);
-		if (data->map[i] == '0')
-			fill_grid(data, 0);
-		if (data->map[i] == 'N')
-			fill_grid(data, 4);
-		if (data->map[i] == 'W')
-			fill_grid(data, 5);
-		if (data->map[i] == 'S')
-			fill_grid(data, 6);
-		if (data->map[i] == 'E')
-			fill_grid(data, 7);
-		if (data->map[i] == ' ')
-			fill_grid(data, 2);
-		data->pos.x++;
-		i++;
 	}
 	return (0);
 }

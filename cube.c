@@ -6,7 +6,7 @@
 /*   By: gkoechli <gkoechli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 17:24:34 by gkoechli          #+#    #+#             */
-/*   Updated: 2023/02/06 17:27:41 by gkoechli         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:06:25 by gkoechli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	cube(t_data *data)
 	{
 		while (i < data->row_max)
 		{
-			printf("%d ", data->wall[i][j]);
+			printf("%d", data->wall[i][j]);
 			i++;
 		}
 		printf("\n");
