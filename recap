@@ -1,0 +1,3 @@
+enlever le free p perso dans close_program leaks
+free du tmp dans exit hook
+ah et le free du tab ou le y / x est fked up
