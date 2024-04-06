@@ -3,22 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gatsby <gatsby@student.42.fr>              +#+  +:+       +#+         #
+#    By: gkoechli <gkoechli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/05 09:51:19 by gduhau            #+#    #+#              #
-#    Updated: 2023/02/10 20:11:37 by gatsby           ###   ########.fr        #
+#    Updated: 2023/02/16 14:41:43 by gkoechli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .DEFAULT	= all
 
-SRCS	= main.c get_next_line.c get_next_line_utils.c ft_split.c closing.c \
-		parsing/cube.c parsing/ft_bzero.c parsing/gnl_utils.c parsing/gnl.c \
+SRCS	= srcs/main.c srcs/ft_split.c srcs/closing.c srcs/heights.c srcs/move_utils.c\
+		parsing/cube.c parsing/utils_4.c parsing/gnl_utils.c parsing/gnl.c \
 		parsing/mapcheck_error.c parsing/utils_2.c parsing/utils.c \
-		parsing/utils_3.c init.c
-OBJS	= ${SRCS:.c=.o}
+		parsing/utils_3.c parsing/free_stuff.c srcs/init.c srcs/move.c srcs/square.c srcs/color.c \
+		srcs/mlx_utils.c srcs/algo_utils.c srcs/algo_1.c srcs/algo_2.c srcs/algo_3.c srcs/color_spe.c \
+		srcs/color_utils.c srcs/square2.c
+
+OBJS	= ${SRCS:.c=.o} 
 MLX_FLAGS	= -lXext -lX11 -lm
-NAME	= cub3d
+NAME	= cub3D
 CC		= clang
 LD_FLAGS	= -L./libs -lmlx_Linux -L libft/ -lft
 LD_FLAGS_MAC	= -L./libs -lmlx_Mac 

@@ -3,38 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkoechli <gkoechli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gduhau <gduhau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 18:04:48 by gkoechli          #+#    #+#             */
-/*   Updated: 2023/02/12 11:28:25 by gkoechli         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:37:28 by gduhau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	ft_cpyber(const char *str, t_data *data)
+void	kill_error(t_data *data, int error_type, struct s_all *p)
 {
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return ;
-	data->map = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if (data->map == NULL)
-		return ;
-	while (str[i])
-	{
-		data->map[i] = str[i];
-		i++;
-	}
-	data->map[i] = '\0';
-	is_map_valid(data);
-}
-
-void	kill_error(t_data *data, int error_type)
-{
-	if (data->map != NULL)
-		free(data->map);
 	if (data->wall != NULL)
 		wall_kill(data);
 	if (error_type == ALLOC_ISSUE)
@@ -45,7 +24,11 @@ void	kill_error(t_data *data, int error_type)
 		printf("Error\nMORE THAN ONE PLAYER\n");
 	if (error_type == NO_PLAYER)
 		printf("Error\nTHERE IS NO PLAYER\n");
+	if (error_type == COLOR_NOT_FOUND)
+		printf("Error\nRBG VALUE INCORRECT\n");
 	free_string_struct(data);
+	if (p)
+		free(p);
 	exit(EXIT_FAILURE);
 }
 
@@ -53,7 +36,7 @@ int	is_map_valid(t_data *data)
 {
 	int	j;
 	int	i;
-	int col;
+	int	col;
 
 	col = 0;
 	i = 0;
@@ -69,49 +52,68 @@ int	is_map_valid(t_data *data)
 		if (data->row_size == 0)
 			data->row_size = j;
 		if (data->row_max < j)
-			data->row_max= j;
+			data->row_max = j;
 		i++;
 		j = 0;
 		col++;
 	}
 	data->col_size = col;
-	printf("col : %d --- row max : %d\n", data->col_size, data->row_max);
 	return (0);
 }
 
-void	check_params(t_data *data)
+int	fill_grid(t_data *data, int elem, struct s_all *p)
 {
-	if (data->player_number == 0)
-		kill_error(data, NO_PLAYER);
-	data->pos.x = 0;
-	data->pos.y = 0;
+	data->wall[data->pos.y][data->pos.x] = elem;
+	if (elem > 3 && elem < 8)
+	{
+		data->player.x = data->pos.x;
+		data->player.y = data->pos.y;
+		data->player.ori = (elem -4) * 90;
+		data->player_number += 1;
+		data->wall[data->pos.y][data->pos.x] = 0;
+	}
+	if (data->player_number > 1)
+		kill_error(data, DUPLICATE_PLAYER, p);
+	return (0);
 }
 
-void	str_glue(t_data *data)
+int	grid_gen(t_data *data, struct s_all *p)
 {
-	int		i;
-	char	*str;
+	int	i;
 
-	i = 0;
-	data->index = ft_strlen(data->temp.end);
-	if (data->temp.solong != NULL)
-		data->index += ft_strlen(data->temp.solong);
-	str = malloc(sizeof(char) * data->index + 1);
-	if (str == NULL)
-		return ;
-	if (data->temp.solong != NULL)
+	i = data->inc;
+	while (data->map[i])
 	{
-		while (data->temp.solong[i])
+		if (data->map[i] == '\n')
 		{
-			str[i] = data->temp.solong[i];
+				data->pos.x = 0;
+				data->pos.y++;
+				i++;
+		}
+		else
+		{
+			parse_letters(data, i, p);
+			data->pos.x++;
 			i++;
 		}
-		free(data->temp.solong);
 	}
-	data->index = -1;
-	while (data->temp.end && data->temp.end[++data->index])
-		str[i++] = data->temp.end[data->index];
-	str[i] = '\0';
-	data->temp.solong = ft_strdup(str);
-	free(str);
+	return (0);
+}
+
+void	parse_letters(t_data *data, int i, struct s_all *p)
+{
+	if (data->map[i] == '1')
+		fill_grid(data, 1, p);
+	if (data->map[i] == '0')
+		fill_grid(data, 0, p);
+	if (data->map[i] == 'E')
+		fill_grid(data, 4, p);
+	if (data->map[i] == 'N')
+		fill_grid(data, 5, p);
+	if (data->map[i] == 'W')
+		fill_grid(data, 6, p);
+	if (data->map[i] == 'S')
+		fill_grid(data, 7, p);
+	if (data->map[i] == ' ')
+		fill_grid(data, 3, p);
 }

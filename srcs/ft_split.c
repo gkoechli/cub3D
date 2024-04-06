@@ -6,11 +6,11 @@
 /*   By: gduhau <gduhau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:14:22 by gduhau            #+#    #+#             */
-/*   Updated: 2023/02/07 14:42:19 by gduhau           ###   ########.fr       */
+/*   Updated: 2023/02/16 11:05:41 by gduhau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 static int	count_words(char const *str, char c)
 {
