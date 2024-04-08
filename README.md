@@ -11,5 +11,5 @@ Then run it with :
 
     ./cub3D maps/test.cub
 
-            maps/test2.cub
+or maps/test2.cub
         
